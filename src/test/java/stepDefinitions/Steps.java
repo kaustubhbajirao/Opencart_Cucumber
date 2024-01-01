@@ -1,8 +1,13 @@
 package stepDefinitions;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
@@ -42,13 +47,21 @@ public class Steps {
 
 
    @Before
-   public void setup()    //Junit hook - executes once before starting
+   public void setup() throws IOException    //Junit hook - executes once before starting
    {
        //for logging
        logger= LogManager.getLogger(this.getClass());
+       
        //Reading config.properties (for browser)
-       rb=ResourceBundle.getBundle("config");
-       br=rb.getString("browser");
+       //rb=ResourceBundle.getBundle("config");
+       //br=rb.getString("browser");
+       
+       //Reading config.properties (for browser)- Approach 2
+       File src = new File(".\\resources\\config.properties");
+       FileInputStream fis = new FileInputStream(src);
+       Properties pro = new Properties();
+       pro.load(fis);
+       br = pro.getProperty("browser");
     
    }
 
